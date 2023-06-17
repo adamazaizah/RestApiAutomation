@@ -7,8 +7,7 @@ from utils import helper
 
 @pytest.hookimpl(trylast=True)
 def pytest_sessionfinish(session, exitstatus):
-
-    report_file = f"{ProjectConsts.ROOT_DIR}//report.html"
+    report_file = f"{ProjectConsts.ROOT_DIR}\\report.html"
     if not os.path.isfile(report_file):
         return
     config = helper.read_config()
