@@ -16,13 +16,17 @@ class SharedGlobal:
 
 
 @pytest.mark.parametrize("test_name", SharedGlobal.test_names)
-def test_verify_get_request(test_name):
+def test_verify_get_request(test_name, caplog):
+    caplog.set_level(logging.INFO)
     test = SharedGlobal.test_data[test_name]
-    LOGGER.info(test['test_name'])
+    LOGGER.info(f"Test name: {test['test_name']}")
     response = UrlResponse(test['url']).response
     for k, v in test.items():
         if 'test_name' in k or 'url' in k:
             continue
+        LOGGER.info(f"Check on response: {k}:{v}")
+        LOGGER.info(f"response value over {k} is: {response[k]}")
+        assert k in response.keys(), f"{k} not found on response jsons."
         assert str(response[k]) == str(v)
 
 """
